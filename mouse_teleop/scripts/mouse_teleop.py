@@ -49,7 +49,7 @@ class MouseTeleop():
         # Create canvas objects:
         self._canvas.create_arc(0, 0, 0, 0, fill='red', outline='red',
                 width=1, style=Tkinter.PIESLICE, start=90.0, tag='w')
-        self._canvas.create_line(0, 0, 0, 0, fill='blue', width=4, tag='v_x')
+        self._canvas.create_line(0, 0, 0, 0, fill='red', width=4, tag='v_x')
 
         if self._holonomic:
             self._canvas.create_line(0, 0, 0, 0,
@@ -143,6 +143,7 @@ class MouseTeleop():
 
     def _mouse_motion_angular(self, event):
         self._v_x, self._w = self._relative_motion(event.y, event.x)
+        self._v_x = self._v_x*-0.5;
 
         self._send_motion()
 
@@ -156,7 +157,7 @@ class MouseTeleop():
         self._canvas.coords(tag, (x0, y0, x1, y1))
 
     def _draw_v_x(self, v):
-        x = -v * float(self._width)
+        x = v * float(self._width)
 
         self._update_coords('v_x', 0, 0, 0, x)
 
@@ -186,7 +187,7 @@ class MouseTeleop():
         self._draw_v_x(self._v_x)
         if self._holonomic:
             self._draw_v_y(self._v_y)
-        self._draw_w(self._w)
+        # self._draw_w(self._w)
 
         if self._holonomic:
             self._text_v_x.set('v_x = %0.2f m/s' % self._v_x)
